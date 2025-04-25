@@ -41,5 +41,16 @@ namespace PhoneBook.PersonService.Controllers
 
             return NoContent();
         }
+        [HttpGet("{id}")]
+        public IActionResult GetPersonById(Guid id)
+        {
+            var person = _context.Persons
+                .Include(p => p.ContactInfos)
+                .FirstOrDefault(p => p.Id == id);
+
+            if (person == null) return NotFound();
+
+            return Ok(person);
+        }
     }
 }
